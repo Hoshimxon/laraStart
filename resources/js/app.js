@@ -8,17 +8,43 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
+import moment from 'moment';
 import { Form, HasError, AlertError } from 'vform';
+import Swal from 'sweetalert2';
+window.Swal = Swal;
+
+const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    onOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer)
+        toast.addEventListener('mouseleave', Swal.resumeTimer)
+    }
+});
+
+window.Toast = Toast;
+
 
 window.Form = Form;
 Vue.component(HasError.name, HasError);
 Vue.component(AlertError.name, AlertError);
+
+import VueProgressBar from 'vue-progressbar'
+Vue.use(VueProgressBar, {
+    color: 'rgb(143, 255, 199)',
+    failedColor: 'green',
+    height: '4px'
+});
 
 import VueRouter from 'vue-router';
 Vue.use(VueRouter);
 
 let routes = [
     { path: '/dashboard', component: require('./components/Dashboard').default },
+    { path: '/developer', component: require('./components/Developer').default },
     { path: '/users', component: require('./components/Users').default },
     { path: '/profile', component: require('./components/Profile').default  }
 ];
@@ -27,6 +53,31 @@ const router = new VueRouter({
     mode: 'history',
     routes
 });
+
+Vue.filter('toCapitalize', function (text) {
+    return text.charAt(0).toUpperCase() + text.slice(1)
+});
+
+Vue.filter('created', function(date){
+    return moment(date).format('MMMM Do YYYY');
+});
+
+Vue.component(
+    'passport-clients',
+    require('./components/passport/Clients.vue').default
+);
+
+Vue.component(
+    'passport-authorized-clients',
+    require('./components/passport/AuthorizedClients.vue').default
+);
+
+Vue.component(
+    'passport-personal-access-tokens',
+    require('./components/passport/PersonalAccessTokens.vue').default
+);
+
+window.Fire = new Vue();
 
 
 

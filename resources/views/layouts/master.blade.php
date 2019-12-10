@@ -88,10 +88,10 @@
                                 </router-link>
                             </li>
                             <li class="nav-item">
-                                <a href="./index2.html" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Dashboard v2</p>
-                                </a>
+                                <router-link to="/developer" class="nav-link">
+                                    <i class="fas fa-cogs"></i>
+                                    <p>Developer</p>
+                                </router-link>
                             </li>
                         </ul>
                     </li>
@@ -129,6 +129,7 @@
         <section class="content">
             <div class="container-fluid">
                 <router-view></router-view>
+                <vue-progress-bar></vue-progress-bar>
             </div><!-- /.container-fluid -->
         </section>
         <!-- /.content -->
