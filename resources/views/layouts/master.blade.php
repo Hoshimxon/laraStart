@@ -72,6 +72,7 @@
                             </p>
                         </router-link>
                     </li>
+                    @can('isAdmin')
                     <li class="nav-item has-treeview menu-open">
                         <a href="#" class="nav-link active">
                             <i class="nav-icon fas fa-cog green"></i>
@@ -87,6 +88,7 @@
                                     <p>Users</p>
                                 </router-link>
                             </li>
+
                             <li class="nav-item">
                                 <router-link to="/developer" class="nav-link">
                                     <i class="fas fa-cogs"></i>
@@ -95,6 +97,7 @@
                             </li>
                         </ul>
                     </li>
+                    @endcan
                     <li class="nav-item">
                         <router-link to="/profile" class="nav-link">
                             <i class="nav-icon fas fa-user-alt orange"></i>
@@ -143,6 +146,12 @@
     <!-- /.control-sidebar -->
 </div>
 <!-- ./wrapper -->
+
+@auth
+    <script>
+        window.user = @json(auth()->user());
+    </script>
+@endauth
 
 <script src="{{mix('js/app.js')}}"></script>
 

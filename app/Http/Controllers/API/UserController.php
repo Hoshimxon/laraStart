@@ -4,7 +4,11 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\User;
+use Defuse\Crypto\File;
+use Illuminate\Auth\Access\Gate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 
 class UserController extends Controller
 {
@@ -20,7 +24,10 @@ class UserController extends Controller
      */
     public function index()
     {
-        return User::latest()->paginate(10);
+//        $this->authorize('isAdmin');
+        if (\Gate::allows('isAdmin') || \Gate::allows('isAuthor')){
+            return User::latest()->paginate(5);
+        }
     }
 
     /**
@@ -43,6 +50,44 @@ class UserController extends Controller
             'type' => $request['type'],
             'password' => bcrypt($request['password']),
         ]);
+    }
+
+    public function profile() {
+        return auth('api')->user();
+    }
+
+    public function updateProfile(Request $request) {
+
+        $user = auth('api')->user();
+
+        $this->validate($request, [
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,'.$user->id,
+            'password' => 'sometimes|required|min:8'
+        ]);
+
+        $currentPhoto = $user->photo;
+
+        if ($request->photo != $currentPhoto) {
+            $name = time().'.' . explode('/', explode(':', substr($request->photo, 0, strpos($request->photo, ';')))[1])[1];
+            \Image::make($request->photo)->save(public_path('/img/profile/').$name);
+
+            $request->merge(['photo' => $name]);
+
+            $userPhoto = public_path('img/profile/').$currentPhoto;
+            if (file_exists($userPhoto)){
+                @unlink($userPhoto);
+            }
+
+        }
+
+        if (!empty($request->password)){
+            $request->merge(['password' => bcrypt($request->password)]);
+        }
+
+        $user->update($request->all());
+
+        return ['message' => 'success'];
     }
 
     /**

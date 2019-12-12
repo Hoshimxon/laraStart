@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <div class="row mt-5">
+        <div class="row mt-5" v-if="$gate.isAdminOrAuthor()">
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
@@ -24,7 +24,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr v-for="user in users" :key="user.id">
+                            <tr v-for="user in users.data" :key="user.id">
                                 <td>{{user.id}}</td>
                                 <td>{{user.name}}</td>
                                 <td>{{user.email}}</td>
@@ -44,6 +44,9 @@
                         </table>
                     </div>
                     <!-- /.card-body -->
+                    <div class="card-footer">
+                        <pagination :data="users" @pagination-change-page="getUsers"></pagination>
+                    </div>
                 </div>
                 <!-- /.card -->
             </div>
@@ -104,6 +107,9 @@
                 </div>
             </div>
         </div>
+        <div v-else-if="!$gate.isAdminOrAuthor()">
+            <not-found></not-found>
+        </div>
     </div>
 </template>
 
@@ -160,8 +166,10 @@
                         this.$Progress.fail();
                     })
             },
-            getUsers(){
-                axios.get("api/user").then(({data}) => (this.users = data.data));
+            getUsers(page = 1){
+                if (this.$gate.isAdminOrAuthor()){
+                    axios.get("api/user?page=" + page).then(({data}) => (this.users = data));
+                }
             },
             createUser() {
                 this.$Progress.start();
@@ -199,7 +207,7 @@
                         )
                     }
                 }).catch(() => {
-                    Swal("Failed", "There was something wrong.", "warning")
+                    Swal.fire("Failed", "There was something wrong.", "error")
                 })
             }
         }
