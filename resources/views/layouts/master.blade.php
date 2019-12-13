@@ -27,9 +27,9 @@
         <!-- SEARCH FORM -->
         <form class="form-inline ml-3">
             <div class="input-group input-group-sm">
-                <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
+                <input v-model="search" @keyup.enter.prevent="searchIt" class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
                 <div class="input-group-append">
-                    <button class="btn btn-navbar" type="submit">
+                    <button @click.prevent="searchIt" class="btn btn-navbar">
                         <i class="fas fa-search"></i>
                     </button>
                 </div>
