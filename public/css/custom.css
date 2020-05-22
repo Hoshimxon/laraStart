@@ -1,0 +1,27 @@
+.validation-info {
+    display: block;
+    color: red;
+    margin-top: 5px;
+}
+.post-images a {
+    position: absolute;
+    right: 3px;
+    top: 0;
+}
+.post-images {
+    position: relative;
+    margin-right: 15px;
+    margin-bottom: 15px;
+    border: 1px solid;
+    display: flex;
+    flex-basis: 25%;
+    align-items: center;
+    justify-content: center;
+}
+.post-images-group {
+    display: flex;
+    flex-wrap: wrap;
+}
+.modal-dialog {
+    max-width: 700px;
+}

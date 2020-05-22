@@ -84,13 +84,12 @@
                                     <select name="type" id="type" v-model="form.type" class="form-control" :class="{'is-invalid': form.errors.has('type')}">
                                         <option value="user">Select User Role</option>
                                         <option value="admin">Admin</option>
-                                        <option value="standard">Standard User</option>
                                         <option value="author">Author</option>
                                     </select>
                                     <has-error :form="form" field="type"></has-error>
                                 </div>
                                 <div class="form-group">
-                                    <input v-model="form.password" type="password" name="password"
+                                    <input v-model="form.password" type="password" name="password" placeholder="Password"
                                            class="form-control" :class="{ 'is-invalid': form.errors.has('password') }">
                                     <has-error :form="form" field="password"></has-error>
                                 </div>
@@ -168,7 +167,7 @@
                             'success'
                         );
                         Fire.$emit('afterCreate');
-                        his.$Progress.finish();
+                        this.$Progress.finish();
                     })
                     .catch(() => {
                         this.$Progress.fail();

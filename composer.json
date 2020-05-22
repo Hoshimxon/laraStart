@@ -9,6 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.2",
+        "astrotomic/laravel-translatable": "^11.8",
         "fideloper/proxy": "^4.0",
         "intervention/image": "^2.5",
         "laravel/framework": "^6.2",
@@ -40,6 +41,9 @@
         "classmap": [
             "database/seeds",
             "database/factories"
+        ],
+        "files": [
+            "app/helpers.php"
         ]
     },
     "autoload-dev": {

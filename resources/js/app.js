@@ -13,10 +13,18 @@ import { Form, HasError, AlertError } from 'vform';
 
 import Gate from './Gate';
 Vue.prototype.$gate = new Gate(window.user);
+Vue.prototype.$translations = window.translations;
+Vue.prototype.$language = window.language;
+Vue.prototype.$http = '/api/v1/admin/';
 
 
 import Swal from 'sweetalert2';
 window.Swal = Swal;
+
+import './plugins/vee-validate';
+
+import Vue2Editor from "vue2-editor";
+Vue.use(Vue2Editor);
 
 const Toast = Swal.mixin({
     toast: true,
@@ -31,7 +39,6 @@ const Toast = Swal.mixin({
 });
 
 window.Toast = Toast;
-
 
 window.Form = Form;
 Vue.component(HasError.name, HasError);
@@ -50,6 +57,13 @@ Vue.use(VueRouter);
 
 let routes = [
     { path: '/dashboard', component: require('./components/Dashboard').default },
+    { path: '/menus', component: require('./components/Menus').default },
+    { path: '/slides', component: require('./components/Slides').default },
+    { path: '/advantages', component: require('./components/Advantages').default },
+    { path: '/how-to', component: require('./components/HowTo').default },
+    { path: '/news', component: require('./components/News').default },
+    { path: '/settings', component: require('./components/Settings').default },
+    { path: '/feedback', component: require('./components/Feedback').default },
     { path: '/developer', component: require('./components/Developer').default },
     { path: '/users', component: require('./components/Users').default },
     { path: '/profile', component: require('./components/Profile').default  },

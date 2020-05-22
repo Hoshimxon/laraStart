@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddExtraFieldsToUsers extends Migration
+class CreatePostFilesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class AddExtraFieldsToUsers extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('type')->default('user');
-            $table->mediumText('bio')->nullable();
-            $table->string('photo')->default('profile.png');
+        Schema::create('post_files', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->bigInteger('post_id');
+            $table->string('file');
+            $table->timestamps();
         });
     }
 
@@ -27,8 +28,6 @@ class AddExtraFieldsToUsers extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('post_files');
     }
 }
